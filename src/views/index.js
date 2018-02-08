@@ -188,6 +188,19 @@ function drag(ev) {
 * gkanban to save where the new 'card' is now at.
 */
 
+/*
+*ToDo
+* find a spot for:
+  this.insertAdjacentHTML('beforebegin',dropHTML);
+      var dropElem = this.previousSibling;
+      addDnDHandlers(dropElem);
+
+    }
+    this.classList.remove('over');
+    return false;
+  }
+*/
+
 function onDrop(ev) {
   ev.preventDefault()
   var data = ev.dataTransfer.getData("text/plain")
