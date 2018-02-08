@@ -10,6 +10,22 @@ var Kanban = function () {
   this.add = function(item) {
     this.columns.push(item)
   },
+  this.movColumn = function() {
+    var cont = document.getElementById('container')
+    if (cont.hasChildNodes()) {
+      var children = cont.childNodes;
+      var temp = this.columns
+      this.columns = []
+      for (var i = 0; i < children.length; i++) {
+        for(var y=0; y<temp.length;y++){
+          var testId = children[i].getAttribute("id")
+          if(temp[y].id == testId){
+            this.add(temp[y])
+          }
+        }
+      }
+    }
+  },
   this.addProject = function(item) {
     this.projects.push({item:item, parentID: "c0"})
   },
@@ -40,6 +56,8 @@ var Kanban = function () {
       var id = el.id
       var col = document.createElement("div")
       col.setAttribute("class","column")
+      col.setAttribute("draggable","true")
+      col.setAttribute("ondragstart","drag(event)")
       col.setAttribute("ondrop","onDrop(event)")
       col.setAttribute("ondragover","onDragOver(event)")
       col.setAttribute("id", id)
@@ -162,9 +180,20 @@ function drag(ev) {
 function onDrop(ev) {
   ev.preventDefault()
   var data = ev.dataTransfer.getData("text/plain")
-  if(ev.target.getAttribute("draggable") != "true"){
-      ev.target.appendChild(document.getElementById(data))
+  var movedObject = document.getElementById(data)
+  if (movedObject.className == "column") {
+    console.log(`Column ${data} moved`);
+    if (ev.target.id == "container") {
+      ev.target.appendChild(movedObject)
+      gkanban.movColumn()
+      gkanban.render()
+    }
+  } else if(movedObject.className == "card") {
+    console.log(`Card ${data} moved`)
+    if (ev.target.className == "column") {
+      ev.target.appendChild(movedObject)
       gkanban.movProject(data, ev.target.id)
+    }
   }
 }
 
