@@ -1,0 +1,61 @@
+body {
+  background-color: rgba(0,150,0,0.3);
+  background-image: url('starnebula.jpg');
+  font-family: "Helvetica";
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+
+.menu {
+  padding:20px;
+  width: 750px;
+  background-color: rgba(255,255,255,.2);
+}
+
+#colM {
+  display: none;
+  padding: 10px;
+}
+
+#projM {
+  display: none;
+  flex-direction: row;
+  padding: 10px;
+}
+
+
+.column {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255,255,255,.3);
+  font-weight: bold;
+  height: 900px;
+  min-width: 180px;
+  padding: 10px;
+  margin: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
+  align-content: center;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.title {
+  text-align: center;
+}
+
+.card {
+ margin: 5px;
+ padding: 5px;
+ background-color: rgba(255,255,255,.8);
+ text-align: center;
+ border: 1px solid black;
+}
+
+.errorM {
+  color: red;
+}

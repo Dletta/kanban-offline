@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Kanban Tracker</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div class="menu">
+      <div id="colM">
+          <label for="input" class="label">Column Name</label><input type="text" id="input">
+          <button type="button" onclick="newCol()">Create</button>
+          <span id="error" class="errorM"></span>
+      </div>
+      <div id="projM">
+        <div class="labels">
+          <label for="prj">Project</label> <br>
+          <label for="ord">Order Number</label> <br>
+          <label for="contr">Contract Date</label> <br>
+        </div>
+        <div class="inputs">
+          <input type="text" id="prj"><br>
+          <input type="text" id="ord"><br>
+          <input type="date" id="contr"><br>
+        </div>
+        <div class="buttons">
+          <button type="button" onclick="newProj()">Create</button>
+        </div>
+      </div>
+      <button type="button" onclick="makeVisi('projM')">New Project</button>
+      <span>  Double-Click on Projects to delete</span>
+      <button type="button" onclick="makeVisi('colM')">New Column</button>
+      <button type="button" onclick="backup()">Backup</button>
+      <button type="button" onclick="loadBackup()">Load Backup</button>
+    </div>
+    <div class="container" id="container">
+
+      <div class="column" id="ini" ondrop="onDrop(event)" ondragover="onDragOver(event)">
+        <div class="title">
+          Create a new Column to start
+        </div>
+      </div>
+
+    </div>
+  </body>
+  <script src="index.js" charset="utf-8"></script>
+</html>
