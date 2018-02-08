@@ -27,7 +27,8 @@ var Kanban = function () {
     }
   },
   this.addProject = function(item) {
-    this.projects.push({item:item, parentID: "c0"})
+    var firstCol = this.columns[0].id
+    this.projects.push({item:item, parentID: firstCol})
   },
   this.movProject = function(idChild, idParent) {
     for(let i=0; i < this.projects.length;i++) {
@@ -166,6 +167,7 @@ function parseDate (text) {
 
 function onDragOver(ev) {
   ev.preventDefault()
+  ev.dataTransfer.dropEffect = "move"
 }
 
 function dropabble(ev) {
@@ -177,20 +179,29 @@ function drag(ev) {
   ev.dataTransfer.dropEffect = "move"
 }
 
+/*
+*function onDrop (document event)
+* called whenever an item is dropped into a 'droppable' zone
+* If a column is dropped, only move it if the target is the container
+* If a 'card' is dropped, only move it into a column
+* Save the new order of columns, and render or write the info to
+* gkanban to save where the new 'card' is now at.
+*/
+
 function onDrop(ev) {
   ev.preventDefault()
   var data = ev.dataTransfer.getData("text/plain")
   var movedObject = document.getElementById(data)
   if (movedObject.className == "column") {
-    console.log(`Column ${data} moved`);
     if (ev.target.id == "container") {
+      console.log(`Column ${data} moved`);
       ev.target.appendChild(movedObject)
       gkanban.movColumn()
       gkanban.render()
     }
   } else if(movedObject.className == "card") {
-    console.log(`Card ${data} moved`)
     if (ev.target.className == "column") {
+      console.log(`Card ${data} moved`)
       ev.target.appendChild(movedObject)
       gkanban.movProject(data, ev.target.id)
     }
