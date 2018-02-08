@@ -33,7 +33,7 @@
       <button type="button" onclick="backup()">Backup</button>
       <button type="button" onclick="loadBackup()">Load Backup</button>
     </div>
-    <div class="container" id="container">
+    <div class="container" id="container" ondrop="onDrop(event)" ondragover="onDragOver(event)">
 
       <div class="column" id="ini" ondrop="onDrop(event)" ondragover="onDragOver(event)">
         <div class="title">
