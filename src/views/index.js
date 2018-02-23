@@ -149,7 +149,7 @@ var newProj = function () {
   var contrd = parseDate(contr.value)
   contrd = contrd.toDateString()
   let proj = new Project(id, name.value, ord.value, contrd)
-  id.value = ''
+  name.value = ''
   ord.value = ''
   contr.value = ''
   gkanban.addProject(proj)
