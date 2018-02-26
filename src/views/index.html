@@ -8,23 +8,23 @@
   <body>
     <div class="menu">
       <div id="colM">
-          <label for="input" class="label">Column Name</label><input type="text" id="input">
+          <label for="input" class="label">Column Name</label><input type="text" id="input"><br>
           <button type="button" onclick="newCol()">Create</button>
+          <button type="button" onclick="cancelCol()">Cancel</button>
           <span id="error" class="errorM"></span>
       </div>
       <div id="projM">
-        <div class="labels">
-          <label for="prj">Project</label> <br>
-          <label for="ord">Order Number</label> <br>
-          <label for="contr">Contract Date</label> <br>
-        </div>
         <div class="inputs">
+          <label for="prj">Project</label> <br>
           <input type="text" id="prj"><br>
+          <label for="ord">Order Number</label> <br>
           <input type="text" id="ord"><br>
+          <label for="contr">Contract Date</label> <br>
           <input type="date" id="contr"><br>
         </div>
         <div class="buttons">
           <button type="button" onclick="newProj()">Create</button>
+          <button type="button" onclick="cancelProj()">Cancel</button>
         </div>
       </div>
       <button type="button" onclick="makeVisi('projM')">New Project</button>

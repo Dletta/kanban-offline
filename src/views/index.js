@@ -139,6 +139,11 @@ var newCol = function () {
   gkanban.render()
 }
 
+var cancelCol = function() {
+  makeInvisi('colM')
+  name.value = ''
+}
+
 /* Function to create new Project */
 var newProj = function () {
   makeInvisi('projM')
@@ -154,6 +159,13 @@ var newProj = function () {
   contr.value = ''
   gkanban.addProject(proj)
   gkanban.render()
+}
+
+var cancelProj = function() {
+  makeInvisi('projM')
+  name.value = ''
+  ord.value = ''
+  contr.value = ''
 }
 
 
