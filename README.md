@@ -18,6 +18,6 @@ This is still in the first working copy. I would call it Beta, except I am using
 ## Future Features
 
 - ~~Fix same Title Issue~~
-- Fix Column Reorder is not possible
+- ~~Fix Column Reorder is not possible~~
 - Change Delete from Double-Click to *Edit Menu* Function that includes *Delete* Button
-- Add button to cancel new Entry (changed your mind, did ya') (Edit Menu with Cancel Button)
+- ~~Add button to cancel new Entry (changed your mind, did ya') (Edit Menu with Cancel Button)~~
