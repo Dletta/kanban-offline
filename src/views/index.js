@@ -26,9 +26,35 @@ var Kanban = function () {
       }
     }
   },
+  this.delColumn = function (id){
+    for(let i=0;i<this.columns.length;i++){
+      if(id == this.columns[i].id){
+        console.log(`Found match ${this.column[i].id}`);
+        this.columns.splice(i,1)
+      }
+    }
+  },
+  this.getNextColID = function() {
+    if(this.columns.length != 0){
+      var last = this.columns[this.columns.length -1]
+      var number = new Number(last.id.slice(1))
+      return number + 1
+    } else {
+      return 0
+    }
+  },
   this.addProject = function(item) {
     var firstCol = this.columns[0].id
     this.projects.push({item:item, parentID: firstCol})
+  },
+  this.getNextPrID = function() {
+    if(this.projects.length != 0){
+      var last = this.projects[this.projects.length -1]
+      var number = new Number(last.item.id.slice(1))
+      return number + 1
+    } else {
+      return 0
+    }
   },
   this.movProject = function(idChild, idParent) {
     for(let i=0; i < this.projects.length;i++) {
@@ -132,7 +158,7 @@ var makeInvisi = function (id) {
 var newCol = function () {
   makeInvisi('colM')
   var name = document.getElementById("input")
-  var id = gkanban.columns.length
+  var id = gkanban.getNextColID()
   var col = new Column(id, name.value)
   gkanban.add(col)
   name.value = ''
@@ -147,7 +173,7 @@ var cancelCol = function() {
 /* Function to create new Project */
 var newProj = function () {
   makeInvisi('projM')
-  var id = gkanban.projects.length
+  var id = gkanban.getNextPrID()
   var name = document.getElementById("prj")
   var ord = document.getElementById("ord")
   var contr = document.getElementById("contr")
