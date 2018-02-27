@@ -9,9 +9,19 @@
     <div class="menu">
       <div id="colM">
           <label for="input" class="label">Column Name</label><input type="text" id="input"><br>
-          <button type="button" onclick="newCol()">Create</button>
-          <button type="button" onclick="cancelCol()">Cancel</button>
-          <span id="error" class="errorM"></span>
+          <div class="buttons">
+            <button type="button" onclick="newCol()">Create</button>
+            <button type="button" onclick="cancelCol()">Cancel</button>
+          </div>
+      </div>
+      <div id="colEM">
+          <label for="input" class="label">ID</label><input type="text" id="idCol" disabled="true"><br>
+          <label for="input" class="label">Column Name</label><input type="text" id="inputCol"><br>
+          <div class="buttons">
+            <button type="button" onclick="saveCol()">Save</button>
+            <button type="button" onclick="delCol()">Delete</button>
+            <button type="button" onclick="cancelColEM()">Cancel</button>
+          </div>
       </div>
       <div id="projM">
         <div class="inputs">
@@ -25,6 +35,23 @@
         <div class="buttons">
           <button type="button" onclick="newProj()">Create</button>
           <button type="button" onclick="cancelProj()">Cancel</button>
+        </div>
+      </div>
+      <div id="projEM">
+        <div class="inputs">
+          <label for="prj">Id</label> <br>
+          <input type="text" id="idProj" disabled="true"><br>
+          <label for="prj">Project</label> <br>
+          <input type="text" id="prjEdit"><br>
+          <label for="ord">Order Number</label> <br>
+          <input type="text" id="ordEdit"><br>
+          <label for="contr">Contract Date</label> <br>
+          <input type="date" id="contrEdit"><br>
+        </div>
+        <div class="buttons">
+          <button type="button" onclick="saveProj()">Save</button>
+          <button type="button" onclick="delProj()">Delete</button>
+          <button type="button" onclick="cancelProjEM()">Cancel</button>
         </div>
       </div>
       <button type="button" onclick="makeVisi('projM')">New Project</button>

@@ -29,8 +29,21 @@ var Kanban = function () {
   this.delColumn = function (id){
     for(let i=0;i<this.columns.length;i++){
       if(id == this.columns[i].id){
-        console.log(`Found match ${this.column[i].id}`);
         this.columns.splice(i,1)
+      }
+    }
+  },
+  this.getColumn = function (id){
+    for(let i=0;i<this.columns.length;i++){
+      if(id == this.columns[i].id){
+        return this.columns[i]
+      }
+    }
+  },
+  this.editColumn = function (id, col){
+    for(let i=0;i<this.columns.length;i++){
+      if(id == this.columns[i].id){
+        this.columns[i] = col
       }
     }
   },
@@ -70,44 +83,60 @@ var Kanban = function () {
   this.delProject = function(id) {
     for(let i=0;i<this.projects.length;i++) {
       if(id == this.projects[i].item.id){
-        console.log(`Found a match ${this.projects[i].item.id}`);
         this.projects.splice(i,1)
       }
     }
   },
-  this.render = function() {
-    var cont = document.getElementById("container")
-    cont.innerHTML = '' //clear all columns
-    this.columns.forEach( (el, ind) => {
-      var name = el.name
-      var id = el.id
-      var col = document.createElement("div")
-      col.setAttribute("class","column")
-      col.setAttribute("draggable","true")
-      col.setAttribute("ondragstart","drag(event)")
-      col.setAttribute("ondrop","onDrop(event)")
-      col.setAttribute("ondragover","onDragOver(event)")
-      col.setAttribute("id", id)
-      var title = document.createElement("div") //render name as title
-      title.setAttribute("class","title")
-      title.innerHTML = name
-      col.appendChild(title)
-      //check if a project is saved in this column, then append it
-      for(let i =0; i < this.projects.length;i++){
-        if(this.projects[i].parentID == id) {
-          let tempP = this.projects[i].item
-          let tempH = document.createElement("div")
-          tempH.setAttribute("class", "card")
-          tempH.setAttribute("draggable","true")
-          tempH.setAttribute("ondragstart","drag(event)")
-          tempH.setAttribute("ondblclick", "del(event)") /* Think about changing*/
-          tempH.setAttribute("id", tempP.id)
-          tempH.innerHTML = tempP.name + "<br>" + tempP.ord + "<br>" + tempP.contr
-          col.appendChild(tempH)
-        }
+  this.getProject = function(id) {
+    for(let i=0;i<this.projects.length;i++) {
+      if(id == this.projects[i].item.id){
+        return this.projects[i].item
       }
-      cont.appendChild(col)
-    })
+    }
+  },
+  this.editProject = function(id, proj) {
+    for(let i=0;i<this.projects.length;i++) {
+      if(id == this.projects[i].item.id){
+        this.projects[i].item = proj
+      }
+    }
+  },
+  this.render = function() {
+    if(this.columns.length != 0) {
+      var cont = document.getElementById("container")
+      cont.innerHTML = '' //clear all columns
+      this.columns.forEach( (el, ind) => {
+        var name = el.name
+        var id = el.id
+        var col = document.createElement("div")
+        col.setAttribute("class","column")
+        col.setAttribute("draggable","true")
+        col.setAttribute("ondragstart","drag(event)")
+        col.setAttribute("ondrop","onDrop(event)")
+        col.setAttribute("ondragover","onDragOver(event)")
+        col.setAttribute("id", id)
+        var title = document.createElement("div") //render name as title
+        title.setAttribute("class","title")
+        title.setAttribute("ondblclick", "edit(event, 'col')")
+        title.innerHTML = name
+        col.appendChild(title)
+        //check if a project is saved in this column, then append it
+        for(let i =0; i < this.projects.length;i++){
+          if(this.projects[i].parentID == id) {
+            let tempP = this.projects[i].item
+            let tempH = document.createElement("div")
+            tempH.setAttribute("class", "card")
+            tempH.setAttribute("draggable","true")
+            tempH.setAttribute("ondragstart","drag(event)")
+            tempH.setAttribute("ondblclick", "edit(event, 'proj')")
+            tempH.setAttribute("id", tempP.id)
+            tempH.innerHTML = tempP.name + "<br>" + tempP.ord + "<br>" + tempP.contr
+            col.appendChild(tempH)
+          }
+        }
+        cont.appendChild(col)
+      })
+    }
   }
 }
 
@@ -178,7 +207,6 @@ var newProj = function () {
   var ord = document.getElementById("ord")
   var contr = document.getElementById("contr")
   var contrd = parseDate(contr.value)
-  contrd = contrd.toDateString()
   let proj = new Project(id, name.value, ord.value, contrd)
   name.value = ''
   ord.value = ''
@@ -197,8 +225,7 @@ var cancelProj = function() {
 
 /* Parse Date Function */
 function parseDate (text) {
-  var b = text.split("-");
-  return new Date(b[0], --b[1], b[2]);
+  return text
 }
 
 /* Drag and Drop Functions */
@@ -259,9 +286,100 @@ function onDrop(ev) {
   }
 }
 
-function del(ev) {
-  gkanban.delProject(event.target.id)
+/*
+* Function that opens a menu depending if the edited Item is a col or a row
+* and proceeds to fillout the input fields with the values of the item,
+* to allow for editing
+*/
+function edit(event, typeCR) {
+  console.log(event.target.id)
+  if(typeCR == "proj") {
+    var project = gkanban.getProject(event.target.id)
+    var id = document.getElementById("idProj")
+    id.value = project.id
+    var proj = document.getElementById("prjEdit")
+    proj.value = project.name
+    var ord = document.getElementById("ordEdit")
+    ord.value = project.ord
+    var contr = document.getElementById("contrEdit")
+    contr.value = project.contr
+    makeVisi('projEM')
+  } else if (typeCR == "col") {
+    console.log(event.target.parentNode.id);
+    var column = gkanban.getColumn(event.target.parentNode.id)
+    var id = document.getElementById("idCol")
+    id.value = column.id
+    var inputCol = document.getElementById("inputCol")
+    inputCol.value = column.name
+    makeVisi('colEM')
+  }
+}
+/*
+* Functions to save, delete or cancel the Edit Menu
+*/
+
+var saveProj = function () {
+  var id = document.getElementById("idProj")
+  id = id.value
+  var idtemp = id.slice(1)
+  var proj = document.getElementById("prjEdit")
+  proj = proj.value
+  var ord = document.getElementById("ordEdit")
+  ord = ord.value
+  var contr = document.getElementById("contrEdit")
+  contr = contr.value
+  var temp = new Project(idtemp, proj, ord, contr)
+  gkanban.editProject(id, temp)
+  cancelProjEM()
   gkanban.render()
+}
+
+var delProj = function () {
+  var id = document.getElementById("idProj")
+  id = id.value
+  gkanban.delProject(id)
+  cancelProjEM()
+  gkanban.render()
+}
+
+var cancelProjEM = function () {
+  var id = document.getElementById("idProj")
+  id.value = ''
+  var proj = document.getElementById("prjEdit")
+  proj.value = ''
+  var ord = document.getElementById("ordEdit")
+  ord.value = ''
+  var contr = document.getElementById("contrEdit")
+  contr.value = ''
+  makeInvisi('projEM')
+}
+
+var saveCol = function () {
+  var id = document.getElementById("idCol")
+  id = id.value
+  var idtemp = id.slice(1)
+  var inputCol = document.getElementById("inputCol")
+  inputCol = inputCol.value
+  var temp = new Column (idtemp, inputCol)
+  gkanban.editColumn(id, temp)
+  cancelColEM()
+  gkanban.render()
+}
+
+var delCol = function () {
+  var id = document.getElementById("idCol")
+  id = id.value
+  gkanban.delColumn(id)
+  cancelColEM()
+  gkanban.render()
+}
+
+var cancelColEM = function () {
+  var id = document.getElementById("idCol")
+  id.value = ''
+  var inputCol = document.getElementById("inputCol")
+  inputCol.value = ''
+  makeInvisi('colEM')
 }
 
 /* Loading and Saving data file */
