@@ -97,6 +97,7 @@ input {
   font-weight: bold;
   height: 900px;
   min-width: 180px;
+  max-width: 180px;
   padding: 10px;
   margin: 5px;
   margin-left: 1px;

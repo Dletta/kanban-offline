@@ -10,28 +10,18 @@ var Kanban = function () {
   this.add = function(item) {
     this.columns.push(item)
   },
-  this.movColumn = function() {
-    var cont = document.getElementById('container')
-    if (cont.hasChildNodes()) {
-      var children = cont.childNodes;
-      var temp = this.columns
-      this.columns = []
-      for (var i = 0; i < children.length; i++) {
-        for(var y=0; y<temp.length;y++){
-          var testId = children[i].getAttribute("id")
-          if(temp[y].id == testId){
-            this.add(temp[y])
-          }
+  this.delColumn = function (id){
+    var empty
+    if(empty) {
+      for(let i=0;i<this.columns.length;i++){
+        if(id == this.columns[i].id){
+          this.columns.splice(i,1)
         }
       }
+    } else {
+      console.log("None Empty");
     }
-  },
-  this.delColumn = function (id){
-    for(let i=0;i<this.columns.length;i++){
-      if(id == this.columns[i].id){
-        this.columns.splice(i,1)
-      }
-    }
+
   },
   this.getColumn = function (id){
     for(let i=0;i<this.columns.length;i++){
@@ -43,7 +33,7 @@ var Kanban = function () {
   this.editColumn = function (id, col){
     for(let i=0;i<this.columns.length;i++){
       if(id == this.columns[i].id){
-        this.columns[i] = col
+        this.columns[i].name = col.name
       }
     }
   },
@@ -101,7 +91,7 @@ var Kanban = function () {
       }
     }
   },
-  this.render = function() {
+  this.render = function() {/*
     if(this.columns.length != 0) {
       var cont = document.getElementById("container")
       cont.innerHTML = '' //clear all columns
@@ -137,7 +127,7 @@ var Kanban = function () {
         cont.appendChild(col)
       })
     }
-  }
+  */}
 }
 
 const gkanban = new Kanban()
@@ -241,7 +231,6 @@ function dropabble(ev) {
 
 function drag(ev) {
   ev.dataTransfer.setData("text/plain", ev.target.id)
-  ev.dataTransfer.dropEffect = "move"
 }
 
 /*
@@ -272,15 +261,12 @@ function onDrop(ev) {
   var movedObject = document.getElementById(data)
   if (movedObject.className == "column") {
     if (ev.target.id == "container") {
-      console.log(`Column ${data} moved`);
-      ev.target.appendChild(movedObject)
-      gkanban.movColumn()
-      gkanban.render()
+      console.log(`Column ${data} cannot be moved`);
+      /* Obsolete due to vue ordering columns by column id */
     }
   } else if(movedObject.className == "card") {
     if (ev.target.className == "column") {
       console.log(`Card ${data} moved`)
-      ev.target.appendChild(movedObject)
       gkanban.movProject(data, ev.target.id)
     }
   }
@@ -416,4 +402,14 @@ window.addEventListener("beforeunload", (event) => {
   console.log(`Saved: ${data}`);
   fs.writeFileSync('kanban.pxx', data, 'utf8')
   return false
+})
+
+/*
+* Vue instance created using global object. Let's try this
+*/
+
+
+var vm = new Vue({
+  el: "#container",
+  data: gkanban
 })
