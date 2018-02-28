@@ -11,8 +11,8 @@ function createWindow () {
   win = new BrowserWindow({
     width: 1500,
     height: 820,
-    minWidth: 750,
-    minHeight: 800
+    minWidth: 900,
+    minHeight: 850
   })
 
   // and load the index.html of the app.
