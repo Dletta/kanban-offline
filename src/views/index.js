@@ -11,8 +11,7 @@ var Kanban = function () {
     this.columns.push(item)
   },
   this.delColumn = function (id){
-    var empty
-    if(empty) {
+    if(!this.hasChild(id)) {
       for(let i=0;i<this.columns.length;i++){
         if(id == this.columns[i].id){
           this.columns.splice(i,1)
@@ -21,8 +20,16 @@ var Kanban = function () {
     } else {
       console.log("None Empty");
     }
-
   },
+  this.hasChild = function (id) {
+    var temp = false;
+    for(let i=0;i<this.projects.length;i++) {
+      if(id == this.projects[i].parentID){
+        temp = true
+      }
+    }
+    return temp
+  }
   this.getColumn = function (id){
     for(let i=0;i<this.columns.length;i++){
       if(id == this.columns[i].id){
