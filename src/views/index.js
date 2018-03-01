@@ -10,29 +10,26 @@ var Kanban = function () {
   this.add = function(item) {
     this.columns.push(item)
   },
-  this.movColumn = function() {
-    var cont = document.getElementById('container')
-    if (cont.hasChildNodes()) {
-      var children = cont.childNodes;
-      var temp = this.columns
-      this.columns = []
-      for (var i = 0; i < children.length; i++) {
-        for(var y=0; y<temp.length;y++){
-          var testId = children[i].getAttribute("id")
-          if(temp[y].id == testId){
-            this.add(temp[y])
-          }
+  this.delColumn = function (id){
+    if(!this.hasChild(id)) {
+      for(let i=0;i<this.columns.length;i++){
+        if(id == this.columns[i].id){
+          this.columns.splice(i,1)
         }
       }
+    } else {
+      console.log("None Empty");
     }
   },
-  this.delColumn = function (id){
-    for(let i=0;i<this.columns.length;i++){
-      if(id == this.columns[i].id){
-        this.columns.splice(i,1)
+  this.hasChild = function (id) {
+    var temp = false;
+    for(let i=0;i<this.projects.length;i++) {
+      if(id == this.projects[i].parentID){
+        temp = true
       }
     }
-  },
+    return temp
+  }
   this.getColumn = function (id){
     for(let i=0;i<this.columns.length;i++){
       if(id == this.columns[i].id){
@@ -43,7 +40,7 @@ var Kanban = function () {
   this.editColumn = function (id, col){
     for(let i=0;i<this.columns.length;i++){
       if(id == this.columns[i].id){
-        this.columns[i] = col
+        this.columns[i].name = col.name
       }
     }
   },
@@ -100,43 +97,6 @@ var Kanban = function () {
         this.projects[i].item = proj
       }
     }
-  },
-  this.render = function() {
-    if(this.columns.length != 0) {
-      var cont = document.getElementById("container")
-      cont.innerHTML = '' //clear all columns
-      this.columns.forEach( (el, ind) => {
-        var name = el.name
-        var id = el.id
-        var col = document.createElement("div")
-        col.setAttribute("class","column")
-        col.setAttribute("draggable","true")
-        col.setAttribute("ondragstart","drag(event)")
-        col.setAttribute("ondrop","onDrop(event)")
-        col.setAttribute("ondragover","onDragOver(event)")
-        col.setAttribute("id", id)
-        var title = document.createElement("div") //render name as title
-        title.setAttribute("class","title")
-        title.setAttribute("ondblclick", "edit(event, 'col')")
-        title.innerHTML = name
-        col.appendChild(title)
-        //check if a project is saved in this column, then append it
-        for(let i =0; i < this.projects.length;i++){
-          if(this.projects[i].parentID == id) {
-            let tempP = this.projects[i].item
-            let tempH = document.createElement("div")
-            tempH.setAttribute("class", "card")
-            tempH.setAttribute("draggable","true")
-            tempH.setAttribute("ondragstart","drag(event)")
-            tempH.setAttribute("ondblclick", "edit(event, 'proj')")
-            tempH.setAttribute("id", tempP.id)
-            tempH.innerHTML = tempP.name + "<br>" + tempP.ord + "<br>" + tempP.contr
-            col.appendChild(tempH)
-          }
-        }
-        cont.appendChild(col)
-      })
-    }
   }
 }
 
@@ -191,7 +151,6 @@ var newCol = function () {
   var col = new Column(id, name.value)
   gkanban.add(col)
   name.value = ''
-  gkanban.render()
 }
 
 var cancelCol = function() {
@@ -212,7 +171,6 @@ var newProj = function () {
   ord.value = ''
   contr.value = ''
   gkanban.addProject(proj)
-  gkanban.render()
 }
 
 var cancelProj = function() {
@@ -241,7 +199,6 @@ function dropabble(ev) {
 
 function drag(ev) {
   ev.dataTransfer.setData("text/plain", ev.target.id)
-  ev.dataTransfer.dropEffect = "move"
 }
 
 /*
@@ -272,15 +229,12 @@ function onDrop(ev) {
   var movedObject = document.getElementById(data)
   if (movedObject.className == "column") {
     if (ev.target.id == "container") {
-      console.log(`Column ${data} moved`);
-      ev.target.appendChild(movedObject)
-      gkanban.movColumn()
-      gkanban.render()
+      console.log(`Column ${data} cannot be moved`);
+      /* Obsolete due to vue ordering columns by column id */
     }
   } else if(movedObject.className == "card") {
     if (ev.target.className == "column") {
       console.log(`Card ${data} moved`)
-      ev.target.appendChild(movedObject)
       gkanban.movProject(data, ev.target.id)
     }
   }
@@ -331,7 +285,6 @@ var saveProj = function () {
   var temp = new Project(idtemp, proj, ord, contr)
   gkanban.editProject(id, temp)
   cancelProjEM()
-  gkanban.render()
 }
 
 var delProj = function () {
@@ -339,7 +292,6 @@ var delProj = function () {
   id = id.value
   gkanban.delProject(id)
   cancelProjEM()
-  gkanban.render()
 }
 
 var cancelProjEM = function () {
@@ -363,7 +315,6 @@ var saveCol = function () {
   var temp = new Column (idtemp, inputCol)
   gkanban.editColumn(id, temp)
   cancelColEM()
-  gkanban.render()
 }
 
 var delCol = function () {
@@ -371,7 +322,6 @@ var delCol = function () {
   id = id.value
   gkanban.delColumn(id)
   cancelColEM()
-  gkanban.render()
 }
 
 var cancelColEM = function () {
@@ -387,7 +337,6 @@ function backup() {
   var data = JSON.stringify(gkanban)
   console.log(`backed up: ${data}`);
   fs.writeFileSync('kanbanBackup.pxx', data, 'utf8')
-  gkanban.render()
 }
 
 function loadBackup() {
@@ -396,7 +345,6 @@ function loadBackup() {
     console.log(`Loaded from backup ${data}`);
     var data = JSON.parse(data)
     Object.assign(gkanban, data)
-    gkanban.render()
   })
 }
 
@@ -407,7 +355,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     console.log(`Loaded ${data}`);
     var data = JSON.parse(data)
     Object.assign(gkanban, data)
-    gkanban.render()
   })
 })
 
@@ -416,4 +363,14 @@ window.addEventListener("beforeunload", (event) => {
   console.log(`Saved: ${data}`);
   fs.writeFileSync('kanban.pxx', data, 'utf8')
   return false
+})
+
+/*
+* Vue instance created using global object. Let's try this
+*/
+
+
+var vm = new Vue({
+  el: "#container",
+  data: gkanban
 })

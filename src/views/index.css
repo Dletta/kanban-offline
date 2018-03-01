@@ -11,13 +11,15 @@ body {
 }
 .container {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
-  overflow-x: scroll;
+  justify-content: center;
+  //overflow-x: scroll;
 }
 
 .menu {
   padding:20px;
-  width: 750px;
+  min-width: 750px;
   background-color: rgba(255,255,255,.2);
 }
 
@@ -95,8 +97,9 @@ input {
   flex-direction: column;
   background-color: rgba(255,255,255,.3);
   font-weight: bold;
-  height: 900px;
+  min-height: 250px;
   min-width: 180px;
+  max-width: 180px;
   padding: 10px;
   margin: 5px;
   margin-left: 1px;
