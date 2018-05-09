@@ -1,5 +1,5 @@
 # kanban-offline
-An offline Kanban Board written in Node/JS/HTML to be used with Electron
+An offline-first Kanban Board written in Node/JS/HTML to be used with Electron
 ## Cloud is great, but...
 I have been looking for an offline version of a KanBan Board. There is a few out there but none worked for my specific use case.
 I work in the Oil and Gas Industry and just didn't feel comfortable putting some of the information I used out there into the cloud.
@@ -19,5 +19,6 @@ This is still in the first working copy. I would call it Beta, except I am using
 
 - ~~Fix same Title Issue~~
 - ~~Fix Column Reorder is not possible~~
-- Change Delete from Double-Click to *Edit Menu* Function that includes *Delete* Button
+- ~~Change Delete from Double-Click to *Edit Menu* Function that includes *Delete* Button~~
 - ~~Add button to cancel new Entry (changed your mind, did ya') (Edit Menu with Cancel Button)~~
+- Add multiple users via local network
