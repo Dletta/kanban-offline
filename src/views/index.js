@@ -2,13 +2,46 @@
 const ipcRenderer = require('electron').ipcRenderer
 const remote = require('electron').remote
 const fs = require('fs')
+var Gun = require('gun/gun')
+require('gun/lib/unset.js')
+require('gun-file')
 
-/* Global Object to capture all columns and to save who is where by id */
+/* Setting up Gun instance */
+localStorage.clear()
+
+var gun = new Gun( {
+  'file-name': 'data.ppx',
+  'file-mode' : 0666,
+  'file-pretty' : true,
+  'file-delay' : 100,
+  file : false
+})
+
+/* Setting up root node for Kanban Data */
+
+var kanbanData = gun.get('kanban').put({type:'root',id:'0'})
+
+/*** Gun Helper Functions */
+
+/* print function to print from once for easy debug */
+function print(x,y) {
+  console.log(`${y} : ${x}`)
+}
+
+/* Quick function to make a two-way link */
+function linkItem (originId, originRoot, linkId, linkRoot) {
+  originRoot.get(originId).get('linked').set(linkRoot.get(linkId))
+  linkRoot.get(linkId).get('linked').set(originRoot.get(originId))
+}
+
+
+/*** Global Object to capture all columns and to save who is where by id */
 var Kanban = function () {
   this.columns = [],
   this.projects = [],
   this.add = function(item) {
     this.columns.push(item)
+    kanbanData.get(item.id).put(item)
   },
   this.delColumn = function (id){
     if(!this.hasChild(id)) {

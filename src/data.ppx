@@ -1,0 +1,50 @@
+[
+   "kanban",
+   {
+      "_": {
+         "#": "kanban",
+         ">": {
+            "type": 1525903754555,
+            "id": 1525903754555,
+            "c1": 1525903652676,
+            "c0": 1525903771188
+         }
+      },
+      "type": "root",
+      "id": "0",
+      "c1": {
+         "#": "jgznkbdetpZGAwpW6kWp"
+      },
+      "c0": {
+         "#": "jgznph6jvLcxB3FwSBDI"
+      }
+   }
+]
+[
+   "jgznkbdetpZGAwpW6kWp",
+   {
+      "_": {
+         "#": "jgznkbdetpZGAwpW6kWp",
+         ">": {
+            "id": 1525903652676,
+            "name": 1525903652676
+         }
+      },
+      "id": null,
+      "name": null
+   }
+]
+[
+   "jgznph6jvLcxB3FwSBDI",
+   {
+      "_": {
+         "#": "jgznph6jvLcxB3FwSBDI",
+         ">": {
+            "id": 1525903771188,
+            "name": 1525903771188
+         }
+      },
+      "id": "c0",
+      "name": "Inbox"
+   }
+]
