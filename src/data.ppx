@@ -4,20 +4,20 @@
       "_": {
          "#": "kanban",
          ">": {
-            "type": 1525903754555,
-            "id": 1525903754555,
-            "c1": 1525903652676,
-            "c0": 1525903771188
+            "type": 1525926633555,
+            "id": 1525926633555,
+            "c1": 1525921898718,
+            "c0": 1525925737427,
+            "kanban": 1525921869232
          }
       },
       "type": "root",
       "id": "0",
-      "c1": {
-         "#": "jgznkbdetpZGAwpW6kWp"
-      },
+      "c1": null,
       "c0": {
-         "#": "jgznph6jvLcxB3FwSBDI"
-      }
+         "#": "jh00safn01aVqNn2tbRDCSv"
+      },
+      "kanban": null
    }
 ]
 [
@@ -46,5 +46,19 @@
       },
       "id": "c0",
       "name": "Inbox"
+   }
+]
+[
+   "jh00safn01aVqNn2tbRDCSv",
+   {
+      "_": {
+         "#": "jh00safn01aVqNn2tbRDCSv",
+         ">": {
+            "id": 1525925737427,
+            "name": 1525925737427
+         }
+      },
+      "id": "c0",
+      "name": "Argh"
    }
 ]

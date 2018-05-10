@@ -19,7 +19,8 @@ var gun = new Gun( {
 
 /* Setting up root node for Kanban Data */
 
-var kanbanData = gun.get('kanban').put({type:'root',id:'0'})
+var kanbanData = gun.get('kanban')
+kanbanData.put({type:'root',id:'0'})
 
 /*** Gun Helper Functions */
 
@@ -399,11 +400,10 @@ window.addEventListener("beforeunload", (event) => {
 })
 
 /*
-* Vue instance created using global object. Let's try this
+* Vue instance created using global object.
 */
 
-
 var vm = new Vue({
-  el: "#container",
-  data: gkanban
+  el:"#container",
+  data:gkanban
 })
