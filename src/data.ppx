@@ -4,20 +4,38 @@
       "_": {
          "#": "kanban",
          ">": {
-            "type": 1525926633555,
-            "id": 1525926633555,
-            "c1": 1525921898718,
+            "type": 1525983661769,
+            "id": 1525983661769,
+            "c1": 1525966927626,
             "c0": 1525925737427,
-            "kanban": 1525921869232
+            "kanban": 1525921869232,
+            "c2": 1525966944085,
+            "c3": 1525967353908,
+            "c4": 1525967462442,
+            "c5": 1525983599823
          }
       },
       "type": "root",
       "id": "0",
-      "c1": null,
+      "c1": {
+         "#": "jh0pb4zyUJf2o0qUReLg"
+      },
       "c0": {
          "#": "jh00safn01aVqNn2tbRDCSv"
       },
-      "kanban": null
+      "kanban": null,
+      "c2": {
+         "#": "jh0pbhp3QhJRsq4KAktd"
+      },
+      "c3": {
+         "#": "jh0pk9x3e9Ao1mH8tNWr"
+      },
+      "c4": {
+         "#": "jh0pmlnwLlfFKzSZDGuA"
+      },
+      "c5": {
+         "#": "jh0z8hchNnG56ZLe1O7i"
+      }
    }
 ]
 [
@@ -55,10 +73,100 @@
          "#": "jh00safn01aVqNn2tbRDCSv",
          ">": {
             "id": 1525925737427,
-            "name": 1525925737427
+            "name": 1525925737427,
+            "type": 1525983579204
          }
       },
       "id": "c0",
-      "name": "Argh"
+      "name": "Argh",
+      "type": "column"
+   }
+]
+[
+   "jh0pb4zyUJf2o0qUReLg",
+   {
+      "_": {
+         "#": "jh0pb4zyUJf2o0qUReLg",
+         ">": {
+            "id": 1525966927626,
+            "name": 1525966927626,
+            "type": 1525983584626
+         }
+      },
+      "id": "c1",
+      "name": "Lard",
+      "type": "column"
+   }
+]
+[
+   "jh0pbhp3QhJRsq4KAktd",
+   {
+      "_": {
+         "#": "jh0pbhp3QhJRsq4KAktd",
+         ">": {
+            "id": 1525966944085,
+            "name": 1525966944085,
+            "type": 1525983588441
+         }
+      },
+      "id": "c2",
+      "name": "Butter",
+      "type": "column"
+   }
+]
+[
+   "jh0pc816DafLHSWpkz0d",
+   {
+      "_": {
+         "#": "jh0pc816DafLHSWpkz0d",
+         ">": {
+            "id": 1525966978217,
+            "name": 1525967113621
+         }
+      },
+      "id": "c3",
+      "name": "Lardi"
+   }
+]
+[
+   "jh0pk9x3e9Ao1mH8tNWr",
+   {
+      "_": {
+         "#": "jh0pk9x3e9Ao1mH8tNWr",
+         ">": {
+            "name": 1525967353908,
+            "type": 1525983592382
+         }
+      },
+      "name": "Lardi",
+      "type": "column"
+   }
+]
+[
+   "jh0pmlnwLlfFKzSZDGuA",
+   {
+      "_": {
+         "#": "jh0pmlnwLlfFKzSZDGuA",
+         ">": {
+            "id": 1525967462442,
+            "name": 1525967462442,
+            "type": 1525983595968
+         }
+      },
+      "id": "c4",
+      "name": "Last",
+      "type": "column"
+   }
+]
+[
+   "jh0z8hchNnG56ZLe1O7i",
+   {
+      "_": {
+         "#": "jh0z8hchNnG56ZLe1O7i",
+         ">": {
+            "type": 1525983599823
+         }
+      },
+      "type": "column"
    }
 ]

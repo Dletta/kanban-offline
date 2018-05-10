@@ -24,9 +24,19 @@ kanbanData.put({type:'root',id:'0'})
 
 /*** Gun Helper Functions */
 
+function getCols() {
+  gkanban.columns = []
+  kanbanData.map().once((data, key)=>{
+    if(data.type == 'column') {
+     gkanban.columns.push(data)
+    }
+  })
+}
+
 /* print function to print from once for easy debug */
 function print(x,y) {
   console.log(`${y} : ${x}`)
+  console.log(x.name, x.id)
 }
 
 /* Quick function to make a two-way link */
@@ -41,6 +51,7 @@ var Kanban = function () {
   this.columns = [],
   this.projects = [],
   this.add = function(item) {
+    item.type = 'column'
     this.columns.push(item)
     kanbanData.get(item.id).put(item)
   },
