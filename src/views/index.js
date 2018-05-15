@@ -24,6 +24,12 @@ kanbanData.put({type:'root',id:'0'})
 
 /*** Gun Helper Functions */
 
+async function getColA () {
+  var array = []
+  var result = await kanbanData.once().map().once()
+  console.log(result);
+}
+
 function getCols() {
   gkanban.columns = []
   kanbanData.map().once((data, key)=>{
