@@ -425,11 +425,3 @@ window.addEventListener("beforeunload", (event) => {
   return false
 })
 */
-/*
-* Vue instance created using global object.
-*/
-
-var vm = new Vue({
-  el:"#container",
-  data: gkanban
-})
