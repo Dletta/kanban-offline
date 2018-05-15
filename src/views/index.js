@@ -3,7 +3,6 @@ const ipcRenderer = require('electron').ipcRenderer
 const remote = require('electron').remote
 const fs = require('fs')
 var Gun = require('gun/gun')
-require('gun/lib/unset.js')
 require('gun-file')
 
 /* Setting up Gun instance */
@@ -432,5 +431,5 @@ window.addEventListener("beforeunload", (event) => {
 
 var vm = new Vue({
   el:"#container",
-  data:gkanban
+  data: gkanban
 })
