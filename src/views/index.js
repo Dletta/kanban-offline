@@ -24,20 +24,24 @@ kanbanData.put({type:'root',id:'0'})
 
 /*** Gun Helper Functions */
 
+/* Get all columns and add it to the columns array of the UI model */
 async function getColA () {
-  var array = []
-  var result = await kanbanData.once().map().once()
-  console.log(result);
-}
-
-function getCols() {
-  gkanban.columns = []
-  kanbanData.map().once((data, key)=>{
-    if(data.type == 'column') {
-     gkanban.columns.push(data)
+ gkanban.columns = []
+ gkanban.projects = []
+  var result = await kanbanData.map().once((x,y)=>{
+    if(x){
+      if (x.type) {
+        if(x.type == "column"){
+          gkanban.columns.push(x)
+        } else if (x.type == "project"){
+          gkanban.projects.push(x)
+        }
+      }
     }
   })
+  return gkanban
 }
+
 
 /* print function to print from once for easy debug */
 function print(x,y) {
@@ -89,11 +93,8 @@ var Kanban = function () {
     }
   },
   this.editColumn = function (id, col){
-    for(let i=0;i<this.columns.length;i++){
-      if(id == this.columns[i].id){
-        this.columns[i].name = col.name
-      }
-    }
+    kanbanData.get(id).put(col)
+    this.render()
   },
   this.getNextColID = function() {
     if(this.columns.length != 0){
@@ -105,8 +106,12 @@ var Kanban = function () {
     }
   },
   this.addProject = function(item) {
+    console.log('adding item: ', item);
     var firstCol = this.columns[0].id
-    this.projects.push({item:item, parentID: firstCol})
+    item.type = 'project'
+    item.parent = firstCol
+    kanbanData.get(item.id).put(item)
+    this.render()
   },
   this.getNextPrID = function() {
     if(this.projects.length != 0){
@@ -148,10 +153,14 @@ var Kanban = function () {
         this.projects[i].item = proj
       }
     }
+  },
+  this.render = function(){
+    return getColA().then(x=>{console.log(x)}).catch(err=>console.log(err))
   }
 }
 
 const gkanban = new Kanban()
+
 
 /**
 * Project Object for purpose of saving and keeping track of
@@ -193,7 +202,7 @@ var makeInvisi = function (id) {
 
 /**
 * Function to create new columns
-* Name from Input, New id from gKanban
+* Name from Input, New id from gkanban
 */
 var newCol = function () {
   makeInvisi('colM')
@@ -384,6 +393,7 @@ var cancelColEM = function () {
 }
 
 /* Loading and Saving data file */
+/*
 function backup() {
   var data = JSON.stringify(gkanban)
   console.log(`backed up: ${data}`);
@@ -415,7 +425,7 @@ window.addEventListener("beforeunload", (event) => {
   fs.writeFileSync('kanban.pxx', data, 'utf8')
   return false
 })
-
+*/
 /*
 * Vue instance created using global object.
 */
