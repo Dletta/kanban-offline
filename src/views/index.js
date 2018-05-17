@@ -62,37 +62,19 @@ var Kanban = function () {
     this.render()
   },
   this.delColumn = function (id){
-    if(!this.hasChild(id)) {
-      for(let i=0;i<this.columns.length;i++){
-        if(id == this.columns[i].id){
-          this.columns.splice(i,1)
-        }
-      }
-    } else {
-      console.log("None Empty");
-    }
+    /*kanbanData.get(id).put(null)
+    this.render()*/ /* add disallowing delete if children reference */
   },
   this.hasChild = function (id) {
-    var temp = false;
-    for(let i=0;i<this.projects.length;i++) {
-      if(id == this.projects[i].parentID){
-        temp = true
-      }
-    }
-    return temp
+    /* find a way to quickly check */
   },
   this.editColumn = function (id, col){
     kanbanData.get(id).put(col)
     this.render()
   },
   this.getNextColID = function() {
-    if(this.columns.length != 0){
-      var last = this.columns[this.columns.length -1]
-      var number = new Number(last.id.slice(1))
-      return number + 1
-    } else {
-      return 0
-    }
+    var d = new Date()
+    return d.getTime()
   },
   this.addProject = function(item) {
     console.log('adding item: ', item);
@@ -103,38 +85,20 @@ var Kanban = function () {
     this.render()
   },
   this.getNextPrID = function() {
-    if(this.projects.length != 0){
-      var last = this.projects[this.projects.length -1]
-      var number = new Number(last.item.id.slice(1))
-      return number + 1
-    } else {
-      return 0
-    }
+    var d = new Date()
+    return d.getTime()
   },
   this.movProject = function(idChild, idParent) {
-    for(let i=0; i < this.projects.length;i++) {
-      if(idChild == this.projects[i].item.id){
-        if(idParent){
-          console.log(`Changing ${this.projects[i].parentID} to`);
-          this.projects[i].parentID = idParent
-          console.log(`${this.projects[i].parentID} as parent`);
-        }
-      }
-    }
+    kanbanData.get(idChild).put({parent: idParent})
+    this.render()
   },
   this.delProject = function(id) {
-    for(let i=0;i<this.projects.length;i++) {
-      if(id == this.projects[i].item.id){
-        this.projects.splice(i,1)
-      }
-    }
+    kanbanData.get(idChild).put(null)
+    this.render()
   },
-  this.editProject = function(id, proj) {
-    for(let i=0;i<this.projects.length;i++) {
-      if(id == this.projects[i].item.id){
-        this.projects[i].item = proj
-      }
-    }
+  this.editProject = function(item) {
+    kanbanData.get(item.id).put(item)
+    this.render()
   },
   this.render = function(){
     getData() /* async function to get and render data */
@@ -327,7 +291,7 @@ var saveProj = function () {
   var contr = document.getElementById("contrEdit")
   contr = contr.value
   var temp = new Project(idtemp, proj, ord, contr)
-  gkanban.editProject(id, temp)
+  gkanban.editProject(temp)
   cancelProjEM()
 }
 
