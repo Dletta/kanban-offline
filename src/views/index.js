@@ -3,6 +3,7 @@ const ipcRenderer = require('electron').ipcRenderer
 const remote = require('electron').remote
 const fs = require('fs')
 var Gun = require('gun/gun')
+const $ = require("jquery")
 require('gun-file')
 
 /* Setting up Gun instance */
@@ -23,29 +24,27 @@ kanbanData.put({type:'root',id:'0'})
 
 /*** Gun Helper Functions */
 
-/* Get all columns and add it to the columns array of the UI model */
-async function getColA () {
- gkanban.columns = []
- gkanban.projects = []
-  var result = await kanbanData.map().once((x,y)=>{
-    if(x){
-      if (x.type) {
-        if(x.type == "column"){
-          gkanban.columns.push(x)
-        } else if (x.type == "project"){
-          gkanban.projects.push(x)
-        }
-      }
+/* Get all columns and projects from database for rendering*/
+function getData() {
+  $('.container').empty()
+  kanbanData.map().once((node,key)=>{
+    if(node && node.type == 'column'){
+      var title = $("<div></div>").text(node.name).attr('class','title').attr('ondblclick',"edit(event, 'col')")
+      var column = $("<div></div>").attr('class','column').attr('id',node.id).attr('ondrop',"onDrop(event)").attr('ondragover',"onDragOver(event)")
+      column.append(title)
+      $('.container').append(column)
+    } else if (node && node.type == 'project') {
+      var card = $('<div></div>').attr('class','card').attr('id', node.id).attr('draggable',"true").attr('ondragstart',"drag(event)").attr('ondblclick',"edit(event, 'proj')")
+      card.html(node.name+"<br>"+node.ord+"<br>"+node.contr)
+      $("#"+node.parent).append(card)
     }
   })
-  return gkanban
 }
 
 
 /* print function to print from once for easy debug */
 function print(x,y) {
   console.log(`${y} : ${x}`)
-  console.log(x.name, x.id)
 }
 
 /* Quick function to make a two-way link */
@@ -57,12 +56,10 @@ function linkItem (originId, originRoot, linkId, linkRoot) {
 
 /*** Global Object to capture all columns and to save who is where by id */
 var Kanban = function () {
-  this.columns = [],
-  this.projects = [],
   this.add = function(item) {
     item.type = 'column'
-    this.columns.push(item)
     kanbanData.get(item.id).put(item)
+    this.render()
   },
   this.delColumn = function (id){
     if(!this.hasChild(id)) {
@@ -83,13 +80,6 @@ var Kanban = function () {
       }
     }
     return temp
-  }
-  this.getColumn = function (id){
-    for(let i=0;i<this.columns.length;i++){
-      if(id == this.columns[i].id){
-        return this.columns[i]
-      }
-    }
   },
   this.editColumn = function (id, col){
     kanbanData.get(id).put(col)
@@ -139,13 +129,6 @@ var Kanban = function () {
       }
     }
   },
-  this.getProject = function(id) {
-    for(let i=0;i<this.projects.length;i++) {
-      if(id == this.projects[i].item.id){
-        return this.projects[i].item
-      }
-    }
-  },
   this.editProject = function(id, proj) {
     for(let i=0;i<this.projects.length;i++) {
       if(id == this.projects[i].item.id){
@@ -154,12 +137,12 @@ var Kanban = function () {
     }
   },
   this.render = function(){
-    return getColA().then(x=>{console.log(x)}).catch(err=>console.log(err))
+    getData() /* async function to get and render data */
   }
 }
 
 const gkanban = new Kanban()
-
+gkanban.render()
 
 /**
 * Project Object for purpose of saving and keeping track of
@@ -307,24 +290,26 @@ function onDrop(ev) {
 function edit(event, typeCR) {
   console.log(event.target.id)
   if(typeCR == "proj") {
-    var project = gkanban.getProject(event.target.id)
-    var id = document.getElementById("idProj")
-    id.value = project.id
-    var proj = document.getElementById("prjEdit")
-    proj.value = project.name
-    var ord = document.getElementById("ordEdit")
-    ord.value = project.ord
-    var contr = document.getElementById("contrEdit")
-    contr.value = project.contr
-    makeVisi('projEM')
+    kanbanData.get(event.target.id).once((node, key)=>{
+      var id = document.getElementById("idProj")
+      id.value = node.id
+      var proj = document.getElementById("prjEdit")
+      proj.value = node.name
+      var ord = document.getElementById("ordEdit")
+      ord.value = node.ord
+      var contr = document.getElementById("contrEdit")
+      contr.value = node.contr
+      makeVisi('projEM')
+    })
   } else if (typeCR == "col") {
     console.log(event.target.parentNode.id);
-    var column = gkanban.getColumn(event.target.parentNode.id)
-    var id = document.getElementById("idCol")
-    id.value = column.id
-    var inputCol = document.getElementById("inputCol")
-    inputCol.value = column.name
-    makeVisi('colEM')
+    kanbanData.get(event.target.parentNode.id).once((node, key)=>{
+      var id = document.getElementById("idCol")
+      id.value = node.id
+      var inputCol = document.getElementById("inputCol")
+      inputCol.value = node.name
+      makeVisi('colEM')
+    })
   }
 }
 /*

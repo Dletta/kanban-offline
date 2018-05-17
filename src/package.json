@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "gun": "^0.9.995",
-    "gun-file": "^1.0.123"
+    "gun-file": "^1.0.123",
+    "jquery": "^3.3.1"
   }
 }

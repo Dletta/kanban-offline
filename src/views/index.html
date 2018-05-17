@@ -5,7 +5,6 @@
     <title>Kanban Tracker</title>
     <link rel="stylesheet" href="index.css">
   </head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <body>
     <div class="menu">
       <div id="colM">
@@ -62,17 +61,9 @@
       <button type="button" onclick="loadBackup()">Load Backup</button>
     </div>
     <div class="container" id="container" ondrop="onDrop(event)" ondragover="onDragOver(event)">
-      <div v-if="columns.length != 0" class="column" v-for="(column, index) in columns" :key="index" :id="column.id" draggable="true" ondragstart="drag(event)" ondrop="onDrop(event)" ondragover="onDragOver(event)">
-        <div class="title" ondblclick="edit(event, 'col')">
-          {{ column.name }}
-        </div>
-        <div class="card" v-if="loading" v-for="(project, index) in projects" :key="index" :id="project.id" v-if="project.parent == column.id" draggable="true" ondragstart="drag(event)" ondblclick="edit(event, 'proj')">
-          {{ project.item.name }}<br>
-          {{ project.item.ord }}<br>
-          {{ project.item.contr }}
-        </div>
+  
       </div>
-      <div v-else class="column" id="ini" ondrop="onDrop(event)" ondragover="onDragOver(event)">
+      <div class="column" id="ini" ondrop="onDrop(event)" ondragover="onDragOver(event)">
         <div class="title">
           Create a new Column to start
         </div>
