@@ -93,7 +93,7 @@ var Kanban = function () {
     this.render()
   },
   this.delProject = function(id) {
-    kanbanData.get(idChild).put(null)
+    kanbanData.get(id).put(null)
     this.render()
   },
   this.editProject = function(item) {
