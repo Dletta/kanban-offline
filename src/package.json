@@ -9,7 +9,7 @@
   "author": "Jachen Duschletta",
   "license": "MIT",
   "dependencies": {
-    "gun": "^0.9.995",
+    "gun": "^0.9.996",
     "gun-file": "^1.0.123",
     "jquery": "^3.3.1"
   }
