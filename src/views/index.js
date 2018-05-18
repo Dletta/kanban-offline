@@ -14,6 +14,7 @@ var gun = new Gun( {
   'file-mode' : 0666,
   'file-pretty' : true,
   'file-delay' : 100,
+  localStorage: false,
   file : false
 })
 

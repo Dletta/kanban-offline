@@ -4,8 +4,8 @@
       "_": {
          "#": "kanban",
          ">": {
-            "type": 1526595752937,
-            "id": 1526595752937,
+            "type": 1526678948188,
+            "id": 1526678948188,
             "c1": 1526595809100,
             "c0": 1526411583524,
             "kanban": 1525921869232,
@@ -222,5 +222,79 @@
       "contr": "2018-03-03",
       "type": "project",
       "parent": "c4"
+   }
+]
+[
+   "jhcg84vtNmEL6fFUplCy",
+   {
+      "_": {
+         "#": "jhcg84vtNmEL6fFUplCy",
+         ">": {
+            "name": 1526677265077,
+            "friend_of": 1526679545880
+         }
+      },
+      "name": "Sally",
+      "friend_of": {
+         "#": "jhchl0rgdBP1OorhKEQR"
+      }
+   }
+]
+[
+   "jhcg84vrI3fo4ZGSM9V4",
+   {
+      "_": {
+         "#": "jhcg84vrI3fo4ZGSM9V4",
+         ">": {
+            "Sally": 1526677265077,
+            "John": 1526677303842
+         }
+      },
+      "Sally": {
+         "#": "jhcg84vtNmEL6fFUplCy"
+      },
+      "John": {
+         "#": "jhcg8ysj5kSrEcCk7XV0"
+      }
+   }
+]
+[
+   "model",
+   {
+      "_": {
+         "#": "model",
+         ">": {
+            "Person": 1526677265077
+         }
+      },
+      "Person": {
+         "#": "jhcg84vrI3fo4ZGSM9V4"
+      }
+   }
+]
+[
+   "jhcg8ysj5kSrEcCk7XV0",
+   {
+      "_": {
+         "#": "jhcg8ysj5kSrEcCk7XV0",
+         ">": {
+            "name": 1526677303842
+         }
+      },
+      "name": "John"
+   }
+]
+[
+   "jhchl0rgdBP1OorhKEQR",
+   {
+      "_": {
+         "#": "jhchl0rgdBP1OorhKEQR",
+         ">": {
+            "jhcg8ysj5kSrEcCk7XV0": 1526679545880
+         }
+      },
+      "jhcg8ysj5kSrEcCk7XV0": {
+         "#": "jhcg8ysj5kSrEcCk7XV0"
+      }
    }
 ]
