@@ -8,7 +8,10 @@
 const sling = function (root) {
   this.root = root,
   this.createNode = function(obj) {
-    console.log('created: ', obj)
+    var temp = new Node()
+    Object.apply(obj, temp)
+    var gTemp = this.root.get(temp.uuid)
+    return gTemp.put(temp)
   },
   this.createRel = function(obj1, obj2){
     console.log('createdRel from to: ', obj1, obj2);
