@@ -14,6 +14,7 @@ const sling = function (root) {
     return gTemp.put(temp)
   },
   this.createRel = function(obj1, obj2){
-    console.log('createdRel from to: ', obj1, obj2);
+    var temp = new Relation(obj1, obj2)
+    var ref = this.fetch(obj1)
   }
 }
