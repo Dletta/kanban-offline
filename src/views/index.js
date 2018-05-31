@@ -50,8 +50,10 @@ function print(x,y) {
 
 /* Quick function to make a two-way link */
 function linkItem (originId, originRoot, linkId, linkRoot) {
-  originRoot.get(originId).get('linked').set(linkRoot.get(linkId))
-  linkRoot.get(linkId).get('linked').set(originRoot.get(originId))
+  var temp = linkRoot.get(linkId)
+  originRoot.get(originId).get('linked').set(temp)
+  var temp2 = originRoot.get(originId)
+  linkRoot.get(linkId).get('linked').set(temp2)
 }
 
 
@@ -79,7 +81,7 @@ var Kanban = function () {
   },
   this.addProject = function(item) {
     console.log('adding item: ', item);
-    var firstCol = this.columns[0].id
+    var firstCol = 'c0'
     item.type = 'project'
     item.parent = firstCol
     kanbanData.get(item.id).put(item)
