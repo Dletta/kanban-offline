@@ -5,6 +5,7 @@ const fs = require('fs')
 var Gun = require('gun/gun')
 const $ = require("jquery")
 require('gun-file')
+require('gun/lib/open.js')
 
 /* Setting up Gun instance */
 localStorage.clear()

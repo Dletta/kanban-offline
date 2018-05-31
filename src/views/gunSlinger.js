@@ -5,7 +5,7 @@
 * Gun DB driver 0.00.001
 */
 
-const sling = function (root) {
+const Sling = function (root) {
   this.root = root,
   this.createNode = function(obj) {
     var temp = new Node()
@@ -18,3 +18,6 @@ const sling = function (root) {
     var ref = this.fetch(obj1)
   }
 }
+
+var rootDB = gun.get('model')
+var gs = new Sling(rootDB)
